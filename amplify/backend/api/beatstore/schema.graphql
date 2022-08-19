@@ -1,0 +1,88 @@
+type Product
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "producerEmail", identityClaim: "email", operations: [create, update, delete, read] }
+      { allow: public, operations: [read]}
+      { allow: groups, groups: ["User"], operations: [read] }
+      { allow: groups, groups: ["Admin"], operations: [create, update, delete, read] }
+      { allow: groups, groups: ["Producer"], operations: [create, update, delete, read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  description: String
+  image: String
+  beat: String
+  price: Float
+  orders: [Order] @manyToMany(relationName: "ProductOrder")
+  producerEmail: String! @index(name: "byProducer", queryField: "productByProducerEmail")
+}
+
+type Order
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "userEmail", identityClaim: "email", operations: [create, update, delete, read] }
+      { allow: groups, groups: ["User"], operations: [read] }
+      { allow: groups, groups: ["Admin"], operations: [create, update, delete, read] }
+      { allow: groups, groups: ["Producer"], operations: [create, update, delete, read] }
+    ]
+  ) {
+  id: ID!
+  date: String!
+  total: Float
+  products: [Product] @manyToMany(relationName: "ProductOrder")
+  userEmail: String! @index(name: "byUser", queryField: "orderByUserEmail")
+}
+
+type User @aws_api_key
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "email", identityClaim: "email", operations: [create, update, delete, read] }
+      { allow: groups, groups: ["User"], operations: [create, update, delete, read] }
+      { allow: groups, groups: ["Admin"], operations: [read] }
+      { allow: groups, groups: ["Producer"], operations: [read] }
+      { allow: private, provider: iam, operations: [create, update, read, delete] }
+    ]
+  ) {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String! @index(name: "byEmail", queryField: "userByEmail")
+  rating: Int
+  country: String
+  gender: String
+  genre: String
+  picture: String
+  role: String @index(name: "byRole", queryField: "userByRole")
+  status: String
+}
+
+enum OrderStatus {
+  SUCCESS
+  FAILED
+}
+
+input CartItem {
+  id: ID!
+  title: String
+  image: String
+  price: Float
+  amount: Int
+}
+
+input ProcessOrderInput {
+  id: ID!
+  cart: [CartItem]
+  total: Float!
+  token: String!
+  address: String
+}
+
+type Mutation {
+  processOrder(input: ProcessOrderInput!): OrderStatus
+    @function(name: "processPayment-${env}")
+    @function(name: "createOrder-${env}")
+}

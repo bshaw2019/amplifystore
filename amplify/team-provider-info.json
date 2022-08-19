@@ -1,0 +1,45 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-beatstore-dev-124810-authRole",
+      "UnauthRoleArn": "arn:aws:iam::885920578765:role/amplify-beatstore-dev-124810-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::885920578765:role/amplify-beatstore-dev-124810-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-beatstore-dev-124810-deployment",
+      "UnauthRoleName": "amplify-beatstore-dev-124810-unauthRole",
+      "StackName": "amplify-beatstore-dev-124810",
+      "StackId": "arn:aws:cloudformation:us-east-1:885920578765:stack/amplify-beatstore-dev-124810/234d8160-7e78-11ec-bd62-12e516baf99d",
+      "AmplifyAppId": "d3ildo7hf6v25c",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-beatstore-dev-124810-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "beatstoreauth": {}
+      },
+      "function": {
+        "beatstoreauthPostConfirmation": {
+          "GROUP": "User",
+          "deploymentBucketName": "amplify-beatstore-dev-124810-deployment",
+          "s3Key": "amplify-builds/beatstoreauthPostConfirmation-62784a4863354e786c6a-build.zip"
+        },
+        "beatstoreauthPreSignup": {
+          "DOMAINDENYLIST": "example.com",
+          "deploymentBucketName": "amplify-beatstore-dev-124810-deployment",
+          "s3Key": "amplify-builds/beatstoreauthPreSignup-6964475a587777575845-build.zip"
+        },
+        "AdminQueries38ffdf56": {
+          "deploymentBucketName": "amplify-beatstore-dev-124810-deployment",
+          "s3Key": "amplify-builds/AdminQueries38ffdf56-736149514b366d453832-build.zip"
+        },
+        "processPayment": {
+          "deploymentBucketName": "amplify-beatstore-dev-124810-deployment",
+          "s3Key": "amplify-builds/processPayment-5530736b324d35785238-build.zip"
+        },
+        "createOrder": {
+          "deploymentBucketName": "amplify-beatstore-dev-124810-deployment",
+          "s3Key": "amplify-builds/createOrder-6a4c4675456e734f5658-build.zip"
+        }
+      }
+    }
+  }
+}
